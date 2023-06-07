@@ -1,0 +1,36 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "groupName": {
+            "value": "Bot"
+        },
+        "groupLocation": {
+            "value": "westeurope"
+        },
+        "appServiceName": {
+            "value": "AlertBotCyber"
+        },
+        "appId": {
+            "value": "edcdd947-6408-4549-8d5c-6828181f4d5b"
+        },
+        "appSecret": {
+            "value": ""
+        },
+        "appServicePlanName": {
+            "value": "BotPlan"
+        },
+        "appServicePlanLocation": {
+            "value": "westeurope"
+        },
+        "appServicePlanSku": {
+            "value": {
+                "name": "S1",
+                "tier": "Standard",
+                "size": "S1",
+                "family": "S",
+                "capacity": 1
+            }
+        }
+    }
+}
