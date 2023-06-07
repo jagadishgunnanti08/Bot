@@ -17,22 +17,22 @@ class ProactiveBot(ActivityHandler):
         self._add_conversation_reference(turn_context.activity)
         return await super().on_conversation_update_activity(turn_context)
 
-    async def on_members_added_activity(
-        self, members_added: ChannelAccount, turn_context: TurnContext
-    ):
-        for member in members_added:
-            if member.id != turn_context.activity.recipient.id:
-                await turn_context.send_activity(
-                    "Welcome to the Proactive Bot sample.  Navigate to "
-                    "http://localhost:3978/api/notify to proactively message everyone "
-                    "who has previously messaged this bot."
-                )
+    # async def on_members_added_activity(
+    #     self, members_added: ChannelAccount, turn_context: TurnContext
+    # ):
+    #     for member in members_added:
+    #         if member.id != turn_context.activity.recipient.id:
+    #             await turn_context.send_activity(
+    #                 "Welcome to the Proactive Bot sample.  Navigate to "
+    #                 "http://localhost:3978/api/notify to proactively message everyone "
+    #                 "who has previously messaged this bot."
+    #             )
 
-    async def on_message_activity(self, turn_context: TurnContext):
-        self._add_conversation_reference(turn_context.activity)
-        return await turn_context.send_activity(
-            f"You sent: {turn_context.activity.text}"
-        )
+    # async def on_message_activity(self, turn_context: TurnContext):
+    #     self._add_conversation_reference(turn_context.activity)
+    #     return await turn_context.send_activity(
+    #         f"You sent: {turn_context.activity.text}"
+    #     )
 
     def _add_conversation_reference(self, activity: Activity):
         """
@@ -65,34 +65,42 @@ class ProactiveBot(ActivityHandler):
 
         await turn_context.send_activity(MessageFactory.text(response_text))
 
-        # return await self._send_suggested_actions(turn_context)
-
+        return await self._details(text, turn_context)
+    
+    async def _details(self, text: str, turn_context: TurnContext):
+        product = text.upper()
+        product_text = f"There is a !!! BIG UPDATE !!! coming in TWO weeks for {product}"
+        reply = MessageFactory.text(product_text)
+        # await turn_context.send_activity(
+        #             MessageFactory.text(product_text)
+        #             )
+        return await turn_context.send_activity(reply)
+    
     async def _send_welcome_message(self, turn_context: TurnContext):
         for member in turn_context.activity.members_added:
             if member.id != turn_context.activity.recipient.id:
                 await turn_context.send_activity(
                     MessageFactory.text(
-                        f"Welcome to SuggestedActionsBot {member.name}."
-                        f" This bot will introduce you to suggestedActions."
-                        f" Please answer the question: "
+                        f"Welcome to Identity Bot {member.name}."
+                        f" This bot will introduce you to suggestedActions and Updates."
                     )
                 )
 
                 await self._send_suggested_actions(turn_context)
 
     def _process_input(self, text: str):
-        color_text = "is the best color, I agree."
+        color_text = "Let me fetch the details of"
 
-        if text == "red":
-            return f"Red {color_text}"
+        if text == "identity":
+            return f"{color_text} Identity"
 
-        if text == "yellow":
-            return f"Yellow {color_text}"
+        if text == "uba":
+            return f"{color_text} UBA"
 
-        if text == "blue":
-            return f"Blue {color_text}"
+        if text == "epm":
+            return f"{color_text} EPM"
 
-        return "Please select a color from the suggested action choices"
+        return "Do you want to tell me a joke while you wait ?"
 
     async def _send_suggested_actions(self, turn_context: TurnContext):
         """
@@ -102,30 +110,30 @@ class ProactiveBot(ActivityHandler):
         "ActionTypes" that may be used for different situations.
         """
 
-        reply = MessageFactory.text("What is your favorite color?")
+        reply = MessageFactory.text("Please select a Product")
 
         reply.suggested_actions = SuggestedActions(
             actions=[
                 CardAction(
-                    title="Red",
+                    title="Identity",
                     type=ActionTypes.im_back,
-                    value="Red",
-                    image="https://via.placeholder.com/20/FF0000?text=R",
-                    image_alt_text="R",
+                    value="Identity",
+                    # image="https://via.placeholder.com/20/FF0000?text=R",
+                    # image_alt_text="R",
                 ),
                 CardAction(
-                    title="Yellow",
+                    title="UBA",
                     type=ActionTypes.im_back,
-                    value="Yellow",
-                    image="https://via.placeholder.com/20/FFFF00?text=Y",
-                    image_alt_text="Y",
+                    value="UBA",
+                    # image="https://via.placeholder.com/20/FFFF00?text=Y",
+                    # image_alt_text="Y",
                 ),
                 CardAction(
-                    title="Blue",
+                    title="EPM",
                     type=ActionTypes.im_back,
-                    value="Blue",
-                    image="https://via.placeholder.com/20/0000FF?text=B",
-                    image_alt_text="B",
+                    value="EPM",
+                    # image="https://via.placeholder.com/20/0000FF?text=B",
+                    # image_alt_text="B",
                 ),
             ]
         )
