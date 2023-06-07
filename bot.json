@@ -1,0 +1,50 @@
+[
+  {
+    "response_type" : "greeting",
+    "user_response" : ["hello", "hi", "hey"],
+    "bot_response" : ["Hey there ! If you need any help please type help keyword"]
+  },
+  {
+    "response_type" : "greeting",
+    "user_response" : ["see you", "goodbye", "bye"],
+    "bot_response" : ["See You Later ! Very Happy to help You"]
+  },
+  {
+    "response_type" : "greeting",
+    "user_response" : ["nice", "meet", "you"],
+    "bot_response" : ["The pleasure is all mine !"]
+  },
+  {
+    "response_type" : "help",
+    "user_response" : ["help"],
+    "bot_response" : ["Please Choose one among following:",
+                        "a) Releases",
+                        "b) IT Support",
+                        "c) Documentation",
+                        "d) R&D Support"]
+  },
+  {
+    "response_type" : "information",
+    "user_response" : ["releases"],
+    "bot_response" : ["The following versions released in this month:",
+                      "a) version 0.x.1, Documentation Available here <hyperlink>",
+                      "b) version 0.x.2, Documentation Available here <hyperlink>",
+                      "Upcoming Releases are Planned on <Date>:",
+                      "a) version 0.y"]
+  },
+  {
+    "response_type" : "information",
+    "user_response" : ["documentation"],
+    "bot_response" : ["Here Documentation Available to install and use CyberArk Identity <hyperlink>"]
+  },
+  {
+    "response_type" : "support",
+    "user_response" : ["it", "support", "create"],
+    "bot_response" : ["To create IT Request for IT Support Navigate to this URL and create IT Ticket <URL>"]
+  },
+  {
+    "response_type" : "support",
+    "user_response" : ["r&d support"],
+    "bot_response" : ["Please Sent your Issue to this mail help@cyberark.com along with your contact details our Agent will contact you and resolve your issue."]
+  }
+]

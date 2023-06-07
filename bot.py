@@ -2,16 +2,49 @@
 # Licensed under the MIT License.
 
 from typing import Dict
+import json
+import random
 
-from botbuilder.core import ActivityHandler, TurnContext
+# from botbuilder.core import ActivityHandler, TurnContext
 from botbuilder.schema import ChannelAccount, ConversationReference, Activity
 from botbuilder.core import ActivityHandler, MessageFactory, TurnContext
 from botbuilder.schema import ChannelAccount, CardAction, ActionTypes, SuggestedActions
 
 
 class ProactiveBot(ActivityHandler):
+    PRODUCTS = ["EPM", "Identity", "UBA"]
+
     def __init__(self, conversation_references: Dict[str, ConversationReference]):
         self.conversation_references = conversation_references
+
+    # Load JSON DATA
+    def load_json(self, file):
+        with open(file, 'r') as bot_responses:
+            print(f"Load {file} Successfully!")
+            return json.loads(bot_responses)
+
+    def get_random_responses(self):
+        random_list = ["Please try writing something more descriptive",
+                       "Oh! It appears something you write I don't understand yet.",
+                       "Do you mind trying to rephrase that?",
+                       "I'm really Sorry, I'm not able to catch that",
+                       "I can't answer that, Please try asking something else"]
+        list_count = len(random_list) - 1
+        random_item = random.randrange(list_count)
+        return random_list[random_item]
+
+    async def get_bot_response(self, user_input):
+        response_data = self.load_json("bot.json")
+        user_response = user_input.lower()
+        result = ""
+        for response in response_data:
+            if user_response in response["user_response"]:
+                bot_response = response["bot_response"]
+                result = '\n'.join(bot_response)
+                break
+        if result == "":
+            result = self.get_random_responses()
+        return result
 
     async def on_conversation_update_activity(self, turn_context: TurnContext):
         self._add_conversation_reference(turn_context.activity)
@@ -47,7 +80,7 @@ class ProactiveBot(ActivityHandler):
         ] = conversation_reference
 
     async def on_members_added_activity(
-        self, members_added: ChannelAccount, turn_context: TurnContext
+            self, members_added: ChannelAccount, turn_context: TurnContext
     ):
         """
         Send a welcome message to the user and tell them what actions they may perform to use this bot
@@ -66,16 +99,20 @@ class ProactiveBot(ActivityHandler):
         await turn_context.send_activity(MessageFactory.text(response_text))
 
         return await self._details(text, turn_context)
-    
+
     async def _details(self, text: str, turn_context: TurnContext):
         product = text.upper()
-        product_text = f"There is a !!! BIG UPDATE !!! coming in TWO weeks for {product}"
+        if product in self.PRODUCTS:
+            product_text = f"There is a !!! BIG UPDATE !!! coming in TWO weeks for {product}"
+        else:
+            product_text = self.get_bot_response(user_input=product.lower())
+
         reply = MessageFactory.text(product_text)
         # await turn_context.send_activity(
         #             MessageFactory.text(product_text)
         #             )
         return await turn_context.send_activity(reply)
-    
+
     async def _send_welcome_message(self, turn_context: TurnContext):
         for member in turn_context.activity.members_added:
             if member.id != turn_context.activity.recipient.id:
@@ -99,6 +136,9 @@ class ProactiveBot(ActivityHandler):
 
         if text == "epm":
             return f"{color_text} EPM"
+
+        if text != "" and text.upper() not in self.PRODUCTS:
+            return text
 
         return "Do you want to tell me a joke while you wait ?"
 
