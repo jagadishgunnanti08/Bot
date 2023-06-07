@@ -20,8 +20,7 @@ class ProactiveBot(ActivityHandler):
     # Load JSON DATA
     def load_json(self, file):
         with open(file, 'r') as bot_responses:
-            print(f"Load {file} Successfully!")
-            return json.loads(bot_responses)
+            return json.loads(bot_responses.read())
 
     def get_random_responses(self):
         random_list = ["Please try writing something more descriptive",
@@ -33,8 +32,9 @@ class ProactiveBot(ActivityHandler):
         random_item = random.randrange(list_count)
         return random_list[random_item]
 
-    async def get_bot_response(self, user_input):
+    def get_bot_response(self, user_input):
         response_data = self.load_json("bot.json")
+        # return response_data
         user_response = user_input.lower()
         result = ""
         for response in response_data:
@@ -94,23 +94,18 @@ class ProactiveBot(ActivityHandler):
         """
 
         text = turn_context.activity.text.lower()
-        response_text = self._process_input(text)
-
-        await turn_context.send_activity(MessageFactory.text(response_text))
-
-        return await self._details(text, turn_context)
+        if text.upper() in self.PRODUCTS:
+            response_text = self._process_input(text)
+            await turn_context.send_activity(MessageFactory.text(response_text))
+            return await self._details(text, turn_context)
+        else:
+            response_text = self.get_bot_response(text)
+            return await turn_context.send_activity(MessageFactory.text(response_text))
 
     async def _details(self, text: str, turn_context: TurnContext):
         product = text.upper()
-        if product in self.PRODUCTS:
-            product_text = f"There is a !!! BIG UPDATE !!! coming in TWO weeks for {product}"
-        else:
-            product_text = self.get_bot_response(user_input=product.lower())
-
+        product_text = f"There is a !!! BIG UPDATE !!! coming in TWO weeks for {product}"
         reply = MessageFactory.text(product_text)
-        # await turn_context.send_activity(
-        #             MessageFactory.text(product_text)
-        #             )
         return await turn_context.send_activity(reply)
 
     async def _send_welcome_message(self, turn_context: TurnContext):
@@ -136,9 +131,6 @@ class ProactiveBot(ActivityHandler):
 
         if text == "epm":
             return f"{color_text} EPM"
-
-        if text != "" and text.upper() not in self.PRODUCTS:
-            return text
 
         return "Do you want to tell me a joke while you wait ?"
 
