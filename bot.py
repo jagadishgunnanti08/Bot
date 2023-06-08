@@ -189,6 +189,16 @@ class ProactiveBot(ActivityHandler):
                     type=ActionTypes.im_back,
                     value="R&D Support",
                 ),
+                CardAction(
+                    title="Jira",
+                    type=ActionTypes.im_back,
+                    value="Jira",
+                ),
+                CardAction(
+                    title="ITCC",
+                    type=ActionTypes.im_back,
+                    value="ITCC",
+                ),
             ]
         )
 
