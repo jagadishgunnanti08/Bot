@@ -26,11 +26,11 @@
   {
     "response_type" : "information",
     "user_response" : ["releases"],
-    "bot_response" : ["The following versions released in this month:",
-                      "a) version 0.x.1, Documentation Available here <hyperlink>",
-                      "b) version 0.x.2, Documentation Available here <hyperlink>",
-                      "Upcoming Releases are Planned on <Date>:",
-                      "a) version 0.y"]
+    "bot_response" : ["The following versions released in this month:\n",
+                      "🚀 version 0.x.1, Documentation Available here <hyperlink>\n",
+                      "🚀 version 0.x.2, Documentation Available here <hyperlink>\n",
+                      "🚀 Upcoming Releases are Planned on <Date>:\n"
+                      ]
   },
   {
     "response_type" : "information",
