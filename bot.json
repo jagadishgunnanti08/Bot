@@ -46,5 +46,15 @@
     "response_type" : "support",
     "user_response" : ["r&d support"],
     "bot_response" : ["Please Sent your Issue to this mail help@cyberark.com along with your contact details our Agent will contact you and resolve your issue."]
+  },
+  {
+    "response_type" : "support",
+    "user_response" : ["jira"],
+    "bot_response" : ["Please enter the required details to raise a jira ticket"]
+  },
+  {
+    "response_type" : "support",
+    "user_response" : ["itcc"],
+    "bot_response" : ["Raise an ITCC Ticket"]
   }
 ]
