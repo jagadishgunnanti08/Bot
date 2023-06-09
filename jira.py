@@ -32,7 +32,7 @@ class ProactiveBot(ActivityHandler):
 
             jira_api_url = 'https://identity-bot.atlassian.net/'
             jira_username = 'jagadish.gunnanti@cyberark.com'
-            jira_api_token = 'ATATT3xFfGF0OI8RBTwoiXqj8wSpCVAzl9z90PR9fxBzXEabuvReWpOENQgfb7uuI24TQIoHg5JdNYCAte5JJ_AOq4npiRci0eD1cIrIzMjlNStIZVAOzwgAGxSDEcOQ4wGmzx87VIhjNRgXa4MVNSzkeTYuTIudY064nURKvpb1L_T2fBqljE8=7130DB82'
+            jira_api_token = 'ATATT3xFfGF0aGK2QnVQ0r8XaSoYFhIbCEiL7cUXe_MkM61noIPBWK91ZctifEJt6NLHn5b4fY1hRfILqFgXbYzKKZSm_3JHzYu_fp9hGEWsNg8V2CBVBsOLWDCznjKDZj9z8zRq7EGnaYVlZoNN2ZqhClmPenhEHNCDYHRcQ5r3BSHD3obmFE4=AD1F4921'
 
             jira = JIRA(server=jira_api_url, basic_auth=(jira_username, jira_api_token))
 
